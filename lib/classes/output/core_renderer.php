@@ -4569,7 +4569,14 @@ EOD;
      * @return mixed string|bool
      */
     public function mform_element($element, $required, $advanced, $error, $ingroup) {
-        $templatename = 'core_form/element-' . $element->getType();
+        $component = 'core_form';
+
+        if (method_exists($element, 'get_template_component')) {
+            $component = $element->get_template_component();
+        }
+
+        $templatename = $component . '/element-' . $element->getType();
+
         if ($ingroup) {
             $templatename .= "-inline";
         }
