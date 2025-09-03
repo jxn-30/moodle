@@ -1210,8 +1210,9 @@ function purify_html($text, $options = array()) {
  * @return string
  */
 function text_to_html($text, $smileyignored = null, $para = true, $newlines = true) {
-    // Remove any whitespace that may be between HTML tags.
-    $text = preg_replace("~>([[:space:]]+)<~i", "><", $text);
+    // Reduce multiple whitespaces between HTML tags to a single one.
+    // Removing all spaces between inline tags would cause a different rendering (MDL-85010).
+    $text = preg_replace("~>([[:space:]]+)<~i", "> <", $text);
 
     // Remove any returns that precede or follow HTML tags.
     $text = preg_replace("~([\n\r])<~i", " <", $text);
